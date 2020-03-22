@@ -3,6 +3,18 @@ import tkinter
 import math
 #
 # Пользовательские процедуры
+# Афансьев - начало, программа нанесения меток и значений разлчных точек граффика
+def print_func(x0,y0):
+    do = 30
+    do_n = 5
+    canvas.create_text(x0,y0-do, text = "("+str(int(x0))+":"+str(int(y0))+")")
+    Points =[]
+    pp = (x0,y0+do_n)
+    Points.append(pp)
+    pp = (x0,y0-do_n)
+    Points.append(pp)
+    canvas.create_line(Points,fill="red", width=1)
+# Конец
 def plot_x_axe(x0, y0, x1):
     x_axe=[]
     xx=(x0, y0)
@@ -27,14 +39,19 @@ def plot_func0(x0, x1, dx, y0, y1):
     a=y1
     b=(y0-y1) / (x1-x0)
     points=[]
+    counter = 0 # - модификация
     for x in range(x0i, x1i, dx):
+        counter+=1 # - модификация
         y=int(a+b*x)
         pp=(x, y)
         points.append(pp)
+        if counter == 4: # - модификация
+            print_func(x,y) # - модификация
+            counter = 0 # - модификация
         #
-        canvas.create_line(points, fill="blue", smooth=1)
-        plot_y_axe(x0i, y0i, y1i)
-        plot_x_axe(x0i, y0i, x1i)
+    canvas.create_line(points, fill="blue", smooth=1)
+    plot_y_axe(x0i, y0i, y1i)
+    plot_x_axe(x0i, y0i, x1i)
         #
 def plot_func1(x0, x1, dx, y0, y1):
     x0i=int(x0)
@@ -44,12 +61,17 @@ def plot_func1(x0, x1, dx, y0, y1):
     a=y0
     b=y0-y1
     points=[]
+    counter = 0 
     for x in range(x0i, x1i, dx):
+        counter+=1
         y=int(a-y1i*b/ x)
         pp=(x, y)
         points.append(pp)
+        if counter == 4: # - модификация
+            print_func(x,y) # - модификация
+            counter = 0 # - модификация
         #   
-    canvas.create_line(points, fill="blue", smooth=1)
+    canvas.create_line(points, fill="green", smooth=1)
     plot_y_axe(x0i, y0i, y1i)
     plot_x_axe(x0i, y0i, x1i)
     #
@@ -61,10 +83,15 @@ def plot_func2(x0, x1, dx, y0, y1):
     a=(y0-y1)/(15*x1)
     b=1+((y0-y1)/(x1-x0))
     points=[]
+    counter = 0
     for x in range(x0i, x1i, dx):
+        counter+=1
         y=y0i-int(a*(x-x0i)**b)
         pp=(x, y)
         points.append(pp)
+        if counter == 4: # - модификация
+            print_func(x,y) # - модификация
+            counter = 0 # - модификация
         #
     canvas.create_line(points, fill="blue", smooth=1)
     plot_y_axe(x0i, y0i, y1i)
@@ -78,12 +105,17 @@ def plot_func3(x0, x1, dx, y0, y1):
     ay=150
     y0i=150
     points=[]
+    counter = 0
     for x in range(x0i, x1i, dx):
+        counter+=1
         y=y0i-ay*math.cos(x*dx)
         pp=(x, y)
         points.append(pp)
+        if counter == 4: # - модификация
+            print_func(x,y) # - модификация
+            counter = 0 # - модификация
         #
-    canvas.create_line(points, fill="blue", smooth=1)
+    canvas.create_line(points, fill="yellow", smooth=1)
     plot_y_axe(x0i, 0, y0i+ay)
     plot_x_axe(x0i, y0i, x1i)
     #
@@ -120,7 +152,7 @@ lbl=tkinter.Label(menuframe)
 lbl["text"]="Выбор:"
 lbl.pack({"side":"left"})
 # Инициализация и формирование списка
-func=tkinter.StrigVar(tk)
+func=tkinter.StringVar(tk)
 func.set('0 y=Ax+B')
 #
 fspis=tkinter.OptionMenu(menuframe, func,
